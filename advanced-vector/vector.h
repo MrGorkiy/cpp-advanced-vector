@@ -182,6 +182,7 @@ public:
 
     template<typename... Args>
     iterator Emplace(const_iterator pos, Args &&... args) {
+        assert(pos >= begin() && pos <= end());
         int pos_index = pos - cbegin();
         if (size_ == Capacity()) {
             RawMemory<T> new_data(size_ == 0 ? 1 : size_ * 2);
@@ -238,6 +239,7 @@ public:
     }
 
     iterator Erase(const_iterator poss) {
+        assert(poss >= begin() && poss <= end());
         int pos_ind = poss - cbegin();
         auto pos = begin() + pos_ind;
         if constexpr (std::is_nothrow_move_constructible_v<T> || !std::is_copy_constructible_v<T>) {
